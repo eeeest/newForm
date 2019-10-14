@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spurs.dao.UserDao">
+    <sql id="info">
+        id,username,password,birthday,sex,phone
+    </sql>
+    <insert id="userRegistered" parameterType="user">
+        insert into user(username, password, birthday, sex, phone) VALUES ('${username}','${password}','${birthday}','${sex}','${phone}')
+    </insert>
+    <update id="userUpdate" parameterType="user">
+        update user set username='${username}',birthday='${birthday}',sex='${sex}',phone='${phone}' <where>id=#{id}</where>
+    </update>
+    <delete id="userDelete">
+        delete from user <where>id=#{id}</where>
+    </delete>
+    <select id="userLogin" resultType="user">
+        SELECT <include refid="info"/> FROM user <where>username=#{username} AND password=#{password}</where>
+    </select>
+    <select id="selectUserList" resultType="user">
+        select <include refid="info"/> from user
+    </select>
+    <select id="userSelectById" resultType="user">
+        select <include refid="info"/> from user <where>id=#{id}</where>
+    </select>
+    <select id="userSelectByUsername" resultType="user">
+        select <include refid="info"/> from user <where>username like concat('%',#{username},'%')</where>
+    </select>
+</mapper>
